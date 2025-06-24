@@ -46,6 +46,7 @@ public class TokenController
         }
     }
 
+    @PostMapping("/refreshToken")
     public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequestDTO request)
     {
         RefreshToken refToken=refreshTokenService.findToken(request.getToken());

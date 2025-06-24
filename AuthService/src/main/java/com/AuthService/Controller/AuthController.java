@@ -26,7 +26,7 @@ public class AuthController
     private UserDetailsServiceImpl userDetails;
 
 
-    @PostMapping("/sign-up")
+    @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody UserInfoDTO userInfo)
     {
         try 

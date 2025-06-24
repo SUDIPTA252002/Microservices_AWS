@@ -68,7 +68,7 @@ public class JWTServcie
     public boolean isTokenValid(String token,UserDetails userDetails)
     {
         String username=userDetails.getUsername();
-        return username.equals(extractUsername(token))&&isTokenExpired(token);
+        return username.equals(extractUsername(token))&& !isTokenExpired(token);
     }
 
     public boolean isTokenExpired(String token)

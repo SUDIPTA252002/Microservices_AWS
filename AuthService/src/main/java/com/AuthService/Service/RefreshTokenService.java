@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.AuthService.Entity.RefreshToken;
 import com.AuthService.Entity.UserInfo;
@@ -11,6 +12,8 @@ import com.AuthService.Exception.ResourceNotFoundException;
 import com.AuthService.Repository.RefreshTokenRepo;
 import com.AuthService.Repository.UserRepo;
 
+
+@Service
 public class RefreshTokenService 
 {
     @Autowired
@@ -33,7 +36,7 @@ public class RefreshTokenService
 
     public RefreshToken findToken(String token)
     {
-        return refreshTokenRepo.findByToken(token).orElseThrow(()->new ResourceNotFoundException("Refresh","Token", token));
+        return refreshTokenRepo.findByrefreshhToken(token).orElseThrow(()->new ResourceNotFoundException("Refresh","Token", token));
     }
 
     public RefreshToken verifyExpiration(RefreshToken token)

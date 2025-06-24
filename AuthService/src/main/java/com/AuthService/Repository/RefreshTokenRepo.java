@@ -10,5 +10,5 @@ import com.AuthService.Entity.RefreshToken;
 
 @Repository
 public interface RefreshTokenRepo extends CrudRepository<RefreshToken,Integer> {
-    Optional<RefreshToken> findByToken(String refershToken);
+    Optional<RefreshToken> findByrefreshhToken(String refershToken);
 }
