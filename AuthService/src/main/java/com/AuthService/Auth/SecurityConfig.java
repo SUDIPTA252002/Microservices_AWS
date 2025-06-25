@@ -22,11 +22,9 @@ import com.AuthService.Repository.UserRepo;
 import com.AuthService.Service.JWTServcie;
 import com.AuthService.Service.UserDetailsServiceImpl;
 
-import lombok.Data;
 
 @Configuration
 @EnableMethodSecurity
-@Data
 public class SecurityConfig 
 {
 
@@ -35,19 +33,18 @@ public class SecurityConfig
 
     @Autowired
     private UserDetailsServiceImpl userDetailsServiceImpl;
-    
+
     @Autowired
-    private JWTAuthFilter jwtAuthFilter;
-    
+    private JWTServcie jwtServcie;
+
     @Autowired
     private UserRepo userRepo;
 
     @Bean
-    @Autowired
-    public UserDetailsService userDetailsService()
-    {
-        return new UserDetailsServiceImpl(userRepo, passwordEncoder);
+    public JWTAuthFilter jwtAuthFilter() {
+        return new JWTAuthFilter(jwtServcie, userDetailsServiceImpl);
     }
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,JWTServcie jwtServcie)throws SecurityException,Exception
@@ -60,7 +57,7 @@ public class SecurityConfig
                             )
                             .sessionManagement(sess->sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                             .httpBasic(Customizer.withDefaults())
-                            .addFilterBefore(jwtAuthFilter,UsernamePasswordAuthenticationFilter.class)
+                            .addFilterBefore(jwtAuthFilter(),UsernamePasswordAuthenticationFilter.class)
                             .authenticationProvider(authProvider())
                             .build();        
     }
@@ -69,7 +66,7 @@ public class SecurityConfig
     public AuthenticationProvider authProvider()
     {
         DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService());
+        authenticationProvider.setUserDetailsService(userDetailsServiceImpl);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
     }

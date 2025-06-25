@@ -23,12 +23,17 @@ import com.AuthService.Service.RefreshTokenService;
 @RequestMapping("auth/v1")
 public class TokenController 
 {
-    @Autowired
     private RefreshTokenService refreshTokenService;
-    @Autowired
     private AuthenticationManager authManager;
-    @Autowired
-    private JWTServcie jwtService;
+    private JWTServcie jwtServcie;
+
+
+    public TokenController(RefreshTokenService refreshTokenService, AuthenticationManager authManager, JWTServcie jwtServcie) {
+        this.refreshTokenService = refreshTokenService;
+        this.authManager = authManager;
+        this.jwtServcie = jwtServcie;
+    }
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequestDTO request)
@@ -37,7 +42,7 @@ public class TokenController
         if(authentication.isAuthenticated())
         {
             RefreshToken refreshToken=refreshTokenService.createRefreshToken(request.getUsername());
-            String token=jwtService.generateToken(request.getUsername());
+            String token=jwtServcie.generateToken(request.getUsername());
 
             return new ResponseEntity<>(JWTResponseDTO.builder().RefreshToken(refreshToken.getRefreshhToken()).accessToken(token),HttpStatus.OK);
         }
@@ -53,7 +58,7 @@ public class TokenController
         RefreshToken verifiedToken=refreshTokenService.verifyExpiration(refToken);
         UserInfo userInfo=verifiedToken.getUserInfo();
         
-        String accessToken=jwtService.generateToken(userInfo.getUsername());
+        String accessToken=jwtServcie.generateToken(userInfo.getUsername());
 
         JWTResponseDTO jwtResponseDTO=JWTResponseDTO.builder()
                                                     .accessToken(accessToken)

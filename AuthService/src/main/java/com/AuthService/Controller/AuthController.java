@@ -20,12 +20,16 @@ import jakarta.validation.Valid;
 @RequestMapping("/auth/v1")
 public class AuthController 
 {
-    @Autowired
     private JWTServcie jwtServcie;
-    @Autowired
     private RefreshTokenService refreshTokenService;
-    @Autowired
     private UserDetailsServiceImpl userDetails;
+
+
+    public AuthController(JWTServcie jwtService, RefreshTokenService refreshTokenService, UserDetailsServiceImpl userDetails) {
+        this.jwtServcie = jwtService;
+        this.refreshTokenService = refreshTokenService;
+        this.userDetails = userDetails;
+    }
 
 
     @PostMapping("/signup")
