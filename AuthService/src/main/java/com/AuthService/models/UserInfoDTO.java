@@ -17,7 +17,7 @@ import lombok.Data;
 @Data
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserInfoDTO extends UserInfo
+public class UserInfoDTO
 {
 
     @NotBlank(message="Username is Required")

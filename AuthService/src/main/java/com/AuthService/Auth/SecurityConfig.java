@@ -38,10 +38,13 @@ public class SecurityConfig
     
     @Autowired
     private JWTAuthFilter jwtAuthFilter;
+    
+    @Autowired
+    private UserRepo userRepo;
 
     @Bean
     @Autowired
-    public UserDetailsService userDetailsService(UserRepo userRepo,PasswordEncoder passwordEncoder)
+    public UserDetailsService userDetailsService()
     {
         return new UserDetailsServiceImpl(userRepo, passwordEncoder);
     }
@@ -49,7 +52,8 @@ public class SecurityConfig
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,JWTServcie jwtServcie)throws SecurityException,Exception
     {
-        return http.csrf(AbstractHttpConfigurer::disable).cors(CorsConfigurer::disable)
+        return http.csrf(AbstractHttpConfigurer::disable)
+                    .cors(CorsConfigurer::disable)
                     .authorizeHttpRequests(auth->auth
                             .requestMatchers("/auth/v1/login", "/auth/v1/refreshToken", "/auth/v1/signup").permitAll()
                             .anyRequest().authenticated()
@@ -65,7 +69,7 @@ public class SecurityConfig
     public AuthenticationProvider authProvider()
     {
         DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsServiceImpl);
+        authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
     }
