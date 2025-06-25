@@ -21,7 +21,6 @@ import lombok.AllArgsConstructor;
 
 
 @Component
-@AllArgsConstructor
 public class JWTAuthFilter extends OncePerRequestFilter 
 {
     @Autowired

@@ -14,6 +14,8 @@ import com.AuthService.Service.RefreshTokenService;
 import com.AuthService.Service.UserDetailsServiceImpl;
 import com.AuthService.models.UserInfoDTO;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/auth/v1")
 public class AuthController 
@@ -27,7 +29,7 @@ public class AuthController
 
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody UserInfoDTO userInfo)
+    public ResponseEntity<?> signUp(@Valid@RequestBody UserInfoDTO userInfo)
     {
         try 
         {

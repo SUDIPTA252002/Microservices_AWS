@@ -3,6 +3,8 @@ package com.AuthService.Entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,13 +24,20 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="users")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserInfo
 {
     @Id
     @Column(name="user_id")
     private String userId;
     private String username;
+    private String firstName;
+    private String lastName;
     private String password;
+
+    private Long phoneNumber;
+    private String email;
+
 
 
     @ManyToMany(fetch=FetchType.EAGER)

@@ -51,7 +51,13 @@ public class UserDetailsServiceImpl implements UserDetailsService
             return false;
         }
         String userId=UUID.randomUUID().toString();
-        UserInfo userInfo=new UserInfo(userId,userInfoDto.getUsername(),userInfoDto.getPassword(),new HashSet<>());
+        UserInfo userInfo=new UserInfo(userId,userInfoDto.getUsername(),
+                                        userInfoDto.getFirstName(),
+                                        userInfoDto.getLastName(),
+                                        userInfoDto.getPassword(),
+                                        userInfoDto.getPhoneNumber(),
+                                        userInfoDto.getEmail(),
+                                        new HashSet<>());
         userRepo.save(userInfo);
         return true;
     }
