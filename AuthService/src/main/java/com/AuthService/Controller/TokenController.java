@@ -15,6 +15,7 @@ import com.AuthService.Entity.RefreshToken;
 import com.AuthService.Entity.UserInfo;
 import com.AuthService.Request.AuthRequestDTO;
 import com.AuthService.Request.RefreshTokenRequestDTO;
+import com.AuthService.Response.ApiResponse;
 import com.AuthService.Response.JWTResponseDTO;
 import com.AuthService.Service.JWTServcie;
 import com.AuthService.Service.RefreshTokenService;
@@ -44,10 +45,10 @@ public class TokenController
             RefreshToken refreshToken=refreshTokenService.createRefreshToken(request.getUsername());
             String token=jwtServcie.generateToken(request.getUsername());
 
-            return new ResponseEntity<>(JWTResponseDTO.builder().RefreshToken(refreshToken.getRefreshhToken()).accessToken(token),HttpStatus.OK);
+            return new ResponseEntity<>(JWTResponseDTO.builder().RefreshToken(refreshToken.getRefreshhToken()).accessToken(token).build(),HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>("Exception in User Service",HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ApiResponse("Exception in User Service",false),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

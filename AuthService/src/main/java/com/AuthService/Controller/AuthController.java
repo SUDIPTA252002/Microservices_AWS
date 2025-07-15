@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.AuthService.Entity.RefreshToken;
+import com.AuthService.Response.ApiResponse;
 import com.AuthService.Response.JWTResponseDTO;
 import com.AuthService.Service.JWTServcie;
 import com.AuthService.Service.RefreshTokenService;
@@ -32,7 +33,7 @@ public class AuthController
     }
 
 
-    @PostMapping("/signup")
+    @PostMapping(value="/signup",produces = "application/json")
     public ResponseEntity<?> signUp(@Valid@RequestBody UserInfoDTO userInfo)
     {
         try 
@@ -40,16 +41,16 @@ public class AuthController
             Boolean isSignedUp=userDetails.signUpUser(userInfo);
             if(Boolean.FALSE.equals(isSignedUp))
             {
-                return new ResponseEntity<>("Alreday Exists!",HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ApiResponse("Alreaady Exists",false),HttpStatus.BAD_REQUEST);
             }
             RefreshToken refreshToken=refreshTokenService.createRefreshToken(userInfo.getUsername());
             String jwtToken=jwtServcie.generateToken(userInfo.getUsername());
-            return new ResponseEntity<>(JWTResponseDTO.builder().accessToken(jwtToken).RefreshToken(refreshToken.getRefreshhToken()),HttpStatus.OK);
+            return new ResponseEntity<>(JWTResponseDTO.builder().accessToken(jwtToken).RefreshToken(refreshToken.getRefreshhToken()).build(),HttpStatus.OK);
             
         }
          catch (Exception e) 
         {
-            return new ResponseEntity<>("Exception in User Service ",HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new ApiResponse("Exception in User Service",false),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     
