@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.AuthService.Entity.UserInfo;
+import com.AuthService.EventProducer.UserInfoEvent;
+import com.AuthService.EventProducer.UserInfoProducer;
 import com.AuthService.Exception.ResourceNotFoundException;
 import com.AuthService.Repository.UserRepo;
 import com.AuthService.models.UserInfoDTO;
@@ -28,6 +30,9 @@ public class UserDetailsServiceImpl implements UserDetailsService
     private UserRepo userRepo;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserInfoProducer userInfoProducer;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -59,7 +64,20 @@ public class UserDetailsServiceImpl implements UserDetailsService
                                         userInfoDto.getEmail(),
                                         new HashSet<>());
         userRepo.save(userInfo);
+        userInfoProducer.sendEventToKafka(transformToUserInfoEvent(userInfoDto));
         return true;
+    }
+
+    private UserInfoEvent transformToUserInfoEvent(UserInfoDTO userDto)
+    {
+        return UserInfoEvent.builder()
+                .userId(userDto.getUserId())
+                .userName(userDto.getUsername())
+                .firstName(userDto.getFirstName())
+                .lastName(userDto.getLastName())
+                .phoneNumber(userDto.getPhoneNumber())
+                .email(userDto.getEmail())
+                .build();
     }
     
 }

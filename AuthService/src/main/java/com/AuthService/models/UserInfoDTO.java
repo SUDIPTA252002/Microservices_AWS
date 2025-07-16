@@ -17,14 +17,14 @@ import lombok.Data;
 @Data
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserInfoDTO
+public class UserInfoDTO extends UserInfo
 {
 
-    @NotBlank(message="Username is Required")
+    @NotNull(message="Username is Required")
     @Size(min=3,max=50,message = "Username should be hav atleast 3 and atmost 5 letters")
     private String username;
 
-    @NotBlank(message = "FirstName is required")
+    @NotNull(message = "FirstName is required")
     private String firstName;
     
     @NotBlank(message = "LastName is required")
