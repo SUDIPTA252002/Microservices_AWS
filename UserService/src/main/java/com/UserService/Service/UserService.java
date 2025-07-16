@@ -32,6 +32,7 @@ public class UserService
                             .orElseGet(createUser);
 
         return new UserDTO(userInfo.getUserId(),
+                            userInfo.getUserName(),
                             userInfo.getFirstName(),
                             userInfo.getLastName(),
                             userInfo.getPhoneNumber(),
@@ -39,9 +40,9 @@ public class UserService
     }
     
 
-    public UserDTO getUser(UserDTO userDto)
+    public UserDTO getUser(String userId)
     {
-        UserInfo userInfo=userRepo.findByUserId(userDto.getUserId()).orElseThrow(()->new UserNotFoundException(userDto.getUserId()));
-        return new UserDTO(userInfo.getUserId(),userInfo.getFirstName(),userInfo.getLastName(),userInfo.getPhoneNumber(),userInfo.getEmail());
+        UserInfo userInfo=userRepo.findByUserId(userId).orElseThrow(()->new UserNotFoundException(userId));
+        return new UserDTO(userInfo.getUserId(),userInfo.getUserName(),userInfo.getFirstName(),userInfo.getLastName(),userInfo.getPhoneNumber(),userInfo.getEmail());
     }
 }

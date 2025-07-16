@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import io.micrometer.common.lang.NonNull;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,9 @@ public class UserDTO
     @JsonProperty("user_id")
     @NonNull
     private String userId;
+
+    @JsonProperty("user_name")
+    private String userName;
     
     @JsonProperty("first_name")
     @NonNull
@@ -39,11 +43,13 @@ public class UserDTO
     
     @JsonProperty("email")
     @NonNull
+    @Email
     private String email;
 
     public UserInfo transforToUserInfo()
     {
         return UserInfo.builder()
+                .userName(userName)
                 .firstName(firstName)
                 .lastName(lastName)
                 .userId(userId)
