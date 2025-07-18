@@ -64,7 +64,9 @@ public class UserDetailsServiceImpl implements UserDetailsService
                                         userInfoDto.getEmail(),
                                         new HashSet<>());
         userRepo.save(userInfo);
+        userInfoDto.setUserId(userId);
         userInfoProducer.sendEventToKafka(transformToUserInfoEvent(userInfoDto));
+        
         return true;
     }
 

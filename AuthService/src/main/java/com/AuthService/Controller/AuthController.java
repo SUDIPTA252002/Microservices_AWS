@@ -50,6 +50,10 @@ public class AuthController
         }
          catch (Exception e) 
         {
+             e.printStackTrace();
+
+            System.out.println("Exception occurred in /signup handler: " + e.getClass().getName() + " - " + e.getMessage());
+
             return new ResponseEntity<>(new ApiResponse("Exception in User Service",false),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

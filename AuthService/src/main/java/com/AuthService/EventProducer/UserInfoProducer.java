@@ -27,6 +27,9 @@ public class UserInfoProducer
     {
         Message<UserInfoEvent> message=MessageBuilder.withPayload(eventData)
                                         .setHeader(KafkaHeaders.TOPIC, topicJsonName).build();
+
+        System.out.println(topicJsonName);
+        System.out.println("Sending Kafka message...");
         kafkaTemplate.send(message);
 
     }
